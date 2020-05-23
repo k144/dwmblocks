@@ -93,8 +93,9 @@ void getcmd(const Block *block, char *output)
 	fgets(output+i, CMDLENGTH-i, cmdf);
 	remove_all(output, '\n');
 	i = strlen(output);
-	if (delim != '\0' && i)
-		output[i++] = delim;
+	if (delim[0] != '\0' && i)
+		strcat(output, delim);
+	i = strlen(output);
 	output[i++] = '\0';
 	pclose(cmdf);
 }
@@ -216,7 +217,7 @@ int main(int argc, char** argv)
 	for(int i = 0; i < argc; i++)
 	{
 		if (!strcmp("-d",argv[i]))
-			delim = argv[++i][0];
+			strcpy(argv[++i], delim);
 		else if(!strcmp("-p",argv[i]))
 			writestatus = pstdout;
 	}
